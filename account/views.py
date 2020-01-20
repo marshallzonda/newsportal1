@@ -2,8 +2,12 @@ from django.shortcuts import render
 from hashlib import md5
 from datetime import datetime
 from .models import User
+from django.http import JsonResponse
+from django.shortcuts import  redirect
 
 data = dict()
+
+
 def get_user(request):
     global data
     if 'user' in request.session:
@@ -97,13 +101,34 @@ def signin(request):
             data['report'] = 'Вы успешно авторизованы'
             data['x_color'] = 'green'
             request.session['user']= _login
+            return redirect('/home')
         except User.DoesNotExist as err:
             data['report'] = 'Авторизация провалена'
             data['x_color'] = 'red'
-        # Загрузка страницы отчета:
-        return render(request,'account/signin_res.html',context=data)
+            return render(request,'account/signin_res.html',context=data)
 
+
+def profile(request):
+    global data
+    get_user(request)
+    return render(request, 'account/profile.html', context=data)
 
 
 def signout(request):
-    return render(request, 'account/signout.html')
+    global data
+    get_user(request)
+    del request.session['user']
+    return redirect('/home')
+    #return render(request, 'home/index.html', context=data)
+
+
+def ajax_reg(request):
+    response = dict()
+    _login = request.GET.get('login')
+    try:
+        user = User.objects.get(login=_login)
+        response['mess'] = 'занят'
+    except User.DoesNotExist as err:
+        response['mess'] = 'свободен'
+
+    return JsonResponse(response)
