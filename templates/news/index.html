@@ -1,0 +1,32 @@
+{% extends 'base.html' %}
+
+
+{% block title %}
+    Новости
+{% endblock title %}
+
+
+{% block header %}
+    Новости
+{% endblock header %}
+
+
+{% block content %}
+    <div id="main_box" class="container">
+        <h3>Новости</h3>
+        {% if user == 'student1' %}
+        <a href="/news.create">Добавить новость </a>
+        {% endif %}
+        <hr class="my_row">
+    </div>
+    <style>
+        #main_box{
+            margin-top: 50px;
+            text-align:center;
+        }
+        .my_row{
+            border-color:gray;
+            margin-top:15px;
+        }
+    </style>
+{% endblock content %}

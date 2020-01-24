@@ -51,19 +51,27 @@
             $('#login').focus(function(){
                 $(this).css('border-color','black')
                 $('#login_err').text('');
-            })
+            });
             $('#pass1').focus(function(){
                 $(this).css('border-color','black')
                 $('#pass1_err').text('');
-            })
+            });
             $('#pass2').focus(function(){
                 $(this).css('border-color','black')
                 $('#pass2_err').text('');
-            })
+            });
             $('#email').focus(function(){
                 $(this).css('border-color','black')
                 $('#email_err').text('');
-            })
+            });
 
+            // Код проверки результатов валидации
+            $('#submit').click(function(){
+                if (valid == true){
+                    $('#form1').attr('onsabmit','return true') // - разблокироват отправку на сервер
+                }else{
+                    $('#form1').attr('onsabmit','return false') // - заблокировать отправку на сервер
+                }
+            })
         });
 
